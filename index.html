@@ -57,6 +57,7 @@
     @media (max-width: 768px) { .hero { grid-template-columns: 1fr; text-align: center; } }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -72,7 +73,9 @@
         <h1>See your music.<br>Feel every line.</h1>
         <p>Turn your Spotify experience into immersive, reactive visual art on macOS.</p>
         
-        <a href="#showcase" onclick="triggerDownload()" class="btn-primary" style="padding: 16px 32px; border-radius: 12px; text-decoration: none; color: white; background: var(--accent); font-weight: 600; display: inline-block;">Download for macOS</a>
+        <a  href="https://github.com/philippeandrei/Onda/releases/latest/download/Onda.Installer.dmg"
+
+        onclick="triggerDownload(event)" class="btn-primary" style="padding: 16px 32px; border-radius: 12px; text-decoration: none; color: white; background: var(--accent); font-weight: 600; display: inline-block;">Download for macOS</a>
         
         <!-- Developer Credit moved to Hero -->
         <div class="dev-credit">
@@ -107,17 +110,28 @@
         <img src="./SS4.png" alt="Onda Example">
       </div>
     </section>
+
+    <p id="downloads">Loading download count...</p>
+
+<script>
+fetch("https://api.github.com/repos/philippeandrei/Onda/releases/latest")
+  .then(r => r.json())
+  .then(data => {
+    const asset = data.assets.find(a => a.name === "Onda.Installer.dmg");
+    if (asset) {
+      document.getElementById("downloads").textContent =
+        `Downloaded ${asset.download_count} times`;
+    }
+  });
+</script>
   </main>
 
+
   <script>
-    function triggerDownload() {
-      const link = document.createElement('a');
-      link.href = './OndaInstaller.dmg'; 
-      link.download = 'OndaInstaller.dmg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
+function triggerDownload(event) {
+
+    location.hash = "showcase";
+}
+</script>
 </body>
 </html>
